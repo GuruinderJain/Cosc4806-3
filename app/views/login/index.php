@@ -47,9 +47,20 @@ unset($_SESSION['account_created']);
 	</div>
 </div>
 
-<footer>
 		<a href="/create">Don't have an account? Sign up now.</a>
-</footer>
+
+					<?php
+						if (isset($_SESSION['locked']) && !(time() > $_SESSION['lock_end'])) { ?>
+							<br>
+							<br>
+							<div class="alert alert-danger" role="alert">
+									You have been locked out for 60 seconds. Please refresh the page and try again later.
+							</div>
+						<?php }
+						else {
+							unset($_SESSION['locked']);
+						}
+?>
 <br>
 
 <?php require_once 'app/views/templates/footer.php' ?>

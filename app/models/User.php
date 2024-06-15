@@ -31,30 +31,21 @@
           $rows = $statement->fetch(PDO::FETCH_ASSOC);
 
       if (password_verify($password, $rows['password'])) {
-        $_SESSION['auth'] = 1;
-        $_SESSION['username'] = ucwords($username); // use this to display username in Home
-        unset($_SESSION['failedAuth']);
-        header('Location: /home'); // should this be done by the controller?
-        //die;
-      } else {
-        if(isset($_SESSION['failedAuth'])) {
-          $_SESSION['failedAuth'] ++; //increment
-        } else {
-          $_SESSION['failedAuth'] = 1;
-        }
-        header('Location: /login'); 
+        $this->is_authenticated = true;
       }
-    }
+      }
     public function check_username_exists($username) {
       $db = db_connect();
-      $statement = $db->prepare("SELECT username FROM users WHERE username = '$username'");
+      $statement = $db->prepare("SELECT username FROM users WHERE username = :username");
+      $statement->bindValue(':username', $username);
       $statement->execute(); 
       $row = $statement->fetch(PDO::FETCH_ASSOC);
-
-      if (isset($row) && !empty($row)) {
+      if (!empty($row)) { 
         $_SESSION['username_exists'] = 1;
       }
-      // die;
+      else {
+        $_SESSION['username_exists'] = 0;
+      }
     }
 
    

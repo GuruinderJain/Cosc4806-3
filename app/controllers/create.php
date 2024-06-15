@@ -29,8 +29,9 @@ class Create extends Controller {
       header ('location: /create');
     }
     else { $user->add_user($username, $password1);
-        $_SESSION['account_created'] = 1;
-      header('location: /login');
+          $_SESSION['account_created'] = 1;
+          unset($_SESSION['username_exists']);
+          header('location: /login');
     }
   }
 }
