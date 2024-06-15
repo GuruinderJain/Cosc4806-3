@@ -25,8 +25,8 @@ class User {
          */
 		$username = strtolower($username);
 		$db = db_connect();
-        $statement = $db->prepare("select * from users WHERE username = :name;");
-        $statement->bindValue(':name', $username);
+        $statement = $db->prepare("select * from users WHERE username = :username;");
+        $statement->bindValue(':username', $username);
         $statement->execute();
         $rows = $statement->fetch(PDO::FETCH_ASSOC);
 		
@@ -46,5 +46,21 @@ class User {
 			die;
 		}
     }
+  public function checkUsernameExists($username) {
+    $_SESSION['test'] = 'test';
+    $db = db_connect();
+    $statement = $db->prepare("SELECT username FROM users WHERE username = '$username'");
+    $statement->execute(); 
+    $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+    if (isset($row) && !empty($row)) {
+      $_SESSION['usernameExists'] = true;
+    }
+    else {
+      $_SESSION['usernameExists'] = false;
+    }
+    // die;
+  }
 
 }
