@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 class Login extends Controller {
 
 		public function index() {		
@@ -14,15 +14,17 @@ class Login extends Controller {
 			$user->check_username_exists($username);
 			if ($_SESSION['username_exists'] == 0) {
 				header('location: /login');
-				die;
+			
 			}
 
 			$user->authenticate($username, $password); 
 			if ($user->is_authenticated) {
 				$_SESSION['auth'] = 1;
-
+				$_SESSION['username'] = $username;
 				unset($_SESSION['failedAuth']);
+				echo "Authentication successful. Redirecting to home...";
 				header('location: /home');
+				die;
 			}
 			else {
 				$_SESSION['password_incorrect'] = 1;
@@ -31,8 +33,10 @@ class Login extends Controller {
 				} 
 				else {
 					$_SESSION['failedAuth'] = 1;
+					echo "Password incorrect. Redirecting to login...";
 				}
-				header('location: /login');
+				header('location: /login.php');
+				die;
 			}
 
 			$this->attempt($username);

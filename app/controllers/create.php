@@ -12,6 +12,7 @@ class Create extends Controller {
     $password2 = $_REQUEST['password2'];
 
     $user = $this->model('User');
+
     $user->check_username_exists($username); 
    
     if (isset($_SESSION['username_exists']) && $_SESSION['username_exists'] == true) {
