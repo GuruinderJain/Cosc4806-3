@@ -54,12 +54,7 @@ class User {
 
 
     if (isset($row) && !empty($row)) {
-      $_SESSION['username_exists'] = true;
-    }
-    else {
-      $_SESSION['username_exists'] = false;
-    }
-    // die;
+    $_SESSION['username_exists'] = 1;
   }
   public function add_user($username, $password) {
     $db = db_connect();
