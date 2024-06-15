@@ -28,7 +28,8 @@ class Create extends Controller {
       $_SESSION['password_too_short'] = 1;
       header ('location: /create');
     }
-    else {
+    else { $user->add_user($username, $password1);
+        $_SESSION['account_created'] = 1;
       header('location: /login');
     }
   }

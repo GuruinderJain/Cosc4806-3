@@ -61,5 +61,10 @@ class User {
     }
     // die;
   }
-
+  public function add_user($username, $password) {
+    $db = db_connect();
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $statement = $db->prepare("INSERT into users (username, password) VALUES ('$username','$hashed_password')");
+    $statement->execute();
+  }
 }
